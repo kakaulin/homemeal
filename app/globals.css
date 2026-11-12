@@ -1,0 +1,50 @@
+@import "tailwindcss";
+@import "@heroui/styles";
+
+/* ------------------------------------------------------------------ */
+/* Шрифт Lebowski by Pragmatica — единственный шрифт интерфейса        */
+/* ------------------------------------------------------------------ */
+
+@theme inline {
+  --font-sans: var(--font-lebowski);
+  --font-display: var(--font-lebowski);
+}
+
+@layer base {
+  html {
+    font-family: var(--font-lebowski), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: inherit;
+  }
+
+  /* HeroUI не задаёт шрифт компонентам, но перестрахуемся:
+     кнопки, поля, таблицы и оверлеи наследуют шрифт от html. */
+  button,
+  input,
+  textarea,
+  select,
+  table,
+  [data-slot] {
+    font-family: inherit;
+  }
+
+  ::selection {
+    background-color: var(--accent);
+    color: var(--accent-foreground);
+  }
+}
+
+@layer utilities {
+  /* Числа в таблицах и метриках — ровными колонками. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1;
+  }
+}

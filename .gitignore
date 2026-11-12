@@ -1,0 +1,20 @@
+node_modules
+.next
+out
+build
+dist
+
+# локальный кэш npm (вынесен в проект из-за ограничений среды);
+# .npmrc содержит абсолютные пути этой машины и в репозиторий не попадает
+.npm-cache
+.npm-logs
+.npmrc
+
+# временные файлы проверки в браузере
+.tmp
+
+*.tsbuildinfo
+next-env.d.ts
+
+.DS_Store
+Thumbs.db
