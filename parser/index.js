@@ -1,18 +1,19 @@
 const targets = require("./targets.json");
 
-const API_URL = "https://web-gateway.middle-api.magnit.ru/v3/goods";
+const API_URL = "https://webgate.magnit.ru/webgate/v2/goods/search";
 
 const HEADERS = {
+  accept: "application/json",
+  "content-type": "application/json",
   "x-client-name": "magnit",
   "x-device-platform": "Web",
-  "x-app-version": "0.1.0",
-  "Content-Type": "application/json",
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-  Accept: "application/json, text/plain, */*",
-  "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
-  Origin: "https://magnit.ru",
-  Referer: "https://magnit.ru/",
+  "x-app-version": "2026.11.5-16.57",
+  "x-device-id": "5a451faa-57cb-4d9c-99a9-ceedc30918a7", // статичный UUID для теста
+  "x-device-tag": "disabled",
+  "x-platform-version": "Windows Chrome 156",
+  "x-magnit-bff": "1",
+  origin: "https://magnit.ru",
+  referer: "https://magnit.ru/",
 };
 
 // В ответе Магнита цена бывает числом или объектом вида { value: ... }.
@@ -26,30 +27,45 @@ function extractPrice(payload) {
   return raw !== null && typeof raw === "object" ? (raw.value ?? raw.amount) : raw;
 }
 
+async function requestPrice(target) {
+  let firstError;
+
+  // Схема /v2/goods/search не подтверждена: пробуем поиск по тексту,
+  // затем старую структуру по идентификаторам.
+  for (const body of [
+    { storeCode: target.shop_code, query: target.internal_name },
+    { storeCodes: [target.shop_code], productIDs: [target.product_id] },
+  ]) {
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: HEADERS,
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Магнит ответил со статусом ${response.status}`);
+      }
+
+      const price = extractPrice(await response.json());
+      if (price !== undefined && price !== null) return price;
+
+      throw new Error("В ответе Магнита нет цены");
+    } catch (error) {
+      firstError ??= error;
+    }
+  }
+
+  throw firstError;
+}
+
 exports.handler = async () => {
   // targets.json — массив целей; ответ API Gateway описывает один товар, берём первую.
   const target = Array.isArray(targets) ? targets[0] : targets;
 
   try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: HEADERS,
-      body: JSON.stringify({
-        storeCodes: [target.shop_code],
-        shopType: target.shop_type,
-        productIDs: [target.product_id],
-      }),
-      signal: AbortSignal.timeout(10000),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Магнит ответил со статусом ${response.status}`);
-    }
-
-    const price = extractPrice(await response.json());
-    if (price === undefined || price === null) {
-      throw new Error("В ответе Магнита нет цены");
-    }
+    const price = await requestPrice(target);
 
     return {
       statusCode: 200,
