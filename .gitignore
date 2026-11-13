@@ -13,6 +13,10 @@ dist
 # временные файлы проверки в браузере
 .tmp
 
+# локальные переменные окружения (шаблон — .env.example)
+.env.local
+.env*.local
+
 *.tsbuildinfo
 next-env.d.ts
 

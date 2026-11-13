@@ -8,6 +8,7 @@ import { useHomeMeal, useHydrated } from "@/lib/store";
 import type { Product } from "@/lib/types";
 
 import { ConfirmDialog } from "./ConfirmDialog";
+import { PriceWidget } from "./PriceWidget";
 import { ProductFormModal } from "./ProductFormModal";
 import { IconPencil, IconPlus, IconSearch, IconTrash } from "./icons";
 import { Macros } from "./ui/Metric";
@@ -102,6 +103,8 @@ export function ProductsScreen() {
           </Button>
         }
       />
+
+      <PriceWidget />
 
       {!hydrated ? (
         <LoadingBlock rows={6} />
