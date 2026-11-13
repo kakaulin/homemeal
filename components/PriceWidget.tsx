@@ -22,7 +22,9 @@ export function PriceWidget() {
     setLoading(true);
     setError(false);
 
-    (url ? fetch(url) : Promise.reject(new Error("NEXT_PUBLIC_API_URL не задан")))
+    (url
+      ? fetch(url, { signal: AbortSignal.timeout(10000) })
+      : Promise.reject(new Error("NEXT_PUBLIC_API_URL не задан")))
       .then((response) => {
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         return response.json();
