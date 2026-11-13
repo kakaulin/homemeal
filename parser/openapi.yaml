@@ -34,3 +34,4 @@ paths:
       x-yc-apigateway-integration:
         type: cloud_functions
         function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}

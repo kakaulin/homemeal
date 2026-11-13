@@ -55,6 +55,8 @@ jobs:
       - name: Deploy API Gateway
         env:
           YC_FUNCTION_ID: ${{ secrets.YC_FUNCTION_ID }}
+          YC_SA_ID: ${{ secrets.YC_SA_ID }}
         run: |
           sed -i "s|\${env.YC_FUNCTION_ID}|$YC_FUNCTION_ID|g" parser/openapi.yaml
+          sed -i "s|\${env.YC_SA_ID}|$YC_SA_ID|g" parser/openapi.yaml
           yc serverless api-gateway update --name homemeal-api --spec parser/openapi.yaml
