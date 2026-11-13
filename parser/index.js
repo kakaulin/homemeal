@@ -7,6 +7,12 @@ const HEADERS = {
   "x-device-platform": "Web",
   "x-app-version": "0.1.0",
   "Content-Type": "application/json",
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  Accept: "application/json, text/plain, */*",
+  "Accept-Language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+  Origin: "https://magnit.ru",
+  Referer: "https://magnit.ru/",
 };
 
 // В ответе Магнита цена бывает числом или объектом вида { value: ... }.
@@ -52,7 +58,10 @@ exports.handler = async () => {
   } catch (error) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: error.message }),
+      body: JSON.stringify({
+        error: error.message,
+        cause: error.cause ? error.cause.code || error.cause.message : "Unknown",
+      }),
     };
   }
 };
