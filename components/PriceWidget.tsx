@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 
 import { formatMoney } from "@/lib/format";
 
+import { IconRefresh } from "./icons";
+
 type PriceData = { product: string; price: number };
 
 export function PriceWidget() {
@@ -51,9 +53,12 @@ export function PriceWidget() {
       </Card.Header>
       <Card.Content>
         {loading ? (
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-48" />
-            <Skeleton className="h-6 w-24" />
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div className="min-w-0 space-y-2">
+              <Skeleton className="h-4 w-52" />
+              <Skeleton className="h-3 w-24" />
+            </div>
+            <Skeleton className="h-8 w-28 rounded-lg" />
           </div>
         ) : error || !data ? (
           <div className="flex flex-wrap items-center gap-3">
@@ -65,13 +70,16 @@ export function PriceWidget() {
               variant="secondary"
               onPress={() => setAttempt((value) => value + 1)}
             >
-              Попробовать снова
+              <IconRefresh className="size-4" />
+              Повторить
             </Button>
           </div>
         ) : (
-          <div className="flex flex-wrap items-baseline justify-between gap-2">
-            <p className="font-semibold">{data.product}</p>
-            <p className="tnum text-lg font-bold">{formatMoney(data.price)}</p>
+          <div className="flex flex-wrap items-end justify-between gap-2">
+            <p className="min-w-0 font-semibold">{data.product}</p>
+            <p className="tnum text-3xl leading-none font-bold tracking-tight">
+              {formatMoney(data.price)}
+            </p>
           </div>
         )}
       </Card.Content>

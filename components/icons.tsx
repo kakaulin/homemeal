@@ -81,3 +81,12 @@ export function IconClose(props: IconProps) {
     </svg>
   );
 }
+
+export function IconRefresh(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M20 11.5a8 8 0 1 0-2.4 5.9" />
+      <path d="M20 5.5v6h-6" />
+    </svg>
+  );
+}
