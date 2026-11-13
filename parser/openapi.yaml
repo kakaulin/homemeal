@@ -1,0 +1,36 @@
+openapi: 3.0.0
+info:
+  title: Home Meal price API
+  version: 1.0.0
+  description: Цена товара в Магните по данным targets.json
+servers:
+  - url: https://your-api-gateway-url
+
+x-yc-apigateway:
+  cors:
+    origin: "*"
+    methods: "*"
+    allowedHeaders: "*"
+
+paths:
+  /get-price:
+    get:
+      operationId: getPrice
+      summary: Цена товара из targets.json
+      responses:
+        "200":
+          description: Цена найдена
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product:
+                    type: string
+                  price:
+                    type: number
+        "500":
+          description: Ошибка парсера
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}

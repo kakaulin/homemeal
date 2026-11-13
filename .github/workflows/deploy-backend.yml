@@ -1,0 +1,59 @@
+name: Deploy backend
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "parser/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+
+      - name: Install yc CLI
+        run: |
+          curl -sSL https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -i /home/runner/yandex-cloud -n
+          echo "/home/runner/yandex-cloud/bin" >> "$GITHUB_PATH"
+
+      - name: Auth in yc
+        env:
+          YC_SA_KEY_JSON: ${{ secrets.YC_SA_KEY_JSON }}
+          YC_FUNCTION_ID: ${{ secrets.YC_FUNCTION_ID }}
+        run: |
+          echo "$YC_SA_KEY_JSON" > key.json
+          yc config profile create sa --service-account-key key.json
+          yc config profile activate sa
+          # Каталог берём у самой функции, чтобы не заводить отдельный секрет.
+          FOLDER_ID=$(yc serverless function get --id "$YC_FUNCTION_ID" --format json | jq -r .folderId)
+          yc config set folder-id "$FOLDER_ID"
+
+      - name: Zip parser
+        run: cd parser && zip -r ../parser.zip index.js targets.json
+
+      - name: Deploy function
+        env:
+          YC_FUNCTION_ID: ${{ secrets.YC_FUNCTION_ID }}
+        run: |
+          yc serverless function version create \
+            --function-id "$YC_FUNCTION_ID" \
+            --runtime nodejs18 \
+            --entrypoint index.handler \
+            --memory 128m \
+            --execution-timeout 15s \
+            --source-path parser.zip
+
+      - name: Deploy API Gateway
+        env:
+          YC_FUNCTION_ID: ${{ secrets.YC_FUNCTION_ID }}
+        run: |
+          sed -i "s|\${env.YC_FUNCTION_ID}|$YC_FUNCTION_ID|g" parser/openapi.yaml
+          yc serverless api-gateway update --name homemeal-api --spec parser/openapi.yaml
