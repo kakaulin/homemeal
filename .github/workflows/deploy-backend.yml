@@ -27,14 +27,15 @@ jobs:
       - name: Auth in yc
         env:
           YC_SA_KEY_JSON: ${{ secrets.YC_SA_KEY_JSON }}
-          YC_FUNCTION_ID: ${{ secrets.YC_FUNCTION_ID }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+          YC_CLOUD_ID: ${{ secrets.YC_CLOUD_ID }}
         run: |
           echo "$YC_SA_KEY_JSON" > key.json
-          yc config profile create sa --service-account-key key.json
-          yc config profile activate sa
-          # Каталог берём у самой функции, чтобы не заводить отдельный секрет.
-          FOLDER_ID=$(yc serverless function get --id "$YC_FUNCTION_ID" --format json | jq -r .folderId)
-          yc config set folder-id "$FOLDER_ID"
+          yc config profile create sa-profile
+          yc config set service-account-key key.json
+          yc config set folder-id "$YC_FOLDER_ID"
+          if [ -n "$YC_CLOUD_ID" ]; then yc config set cloud-id "$YC_CLOUD_ID"; fi
+          yc config profile activate sa-profile
 
       - name: Zip parser
         run: cd parser && zip -r ../parser.zip index.js targets.json
