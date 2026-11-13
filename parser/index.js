@@ -1,63 +1,48 @@
 const targets = require("./targets.json");
 
-const API_URL = "https://webgate.magnit.ru/webgate/v2/goods/search";
+const API_URL = "https://mcp.lenta.com/mcp";
+// Адрес точки, по которой MCP определяет магазин.
+const ADDRESS = "Москва, Ленинский проспект 45";
 
 const HEADERS = {
-  accept: "application/json",
-  "content-type": "application/json",
-  "x-client-name": "magnit",
-  "x-device-platform": "Web",
-  "x-app-version": "2026.11.5-16.57",
-  "x-device-id": "5a451faa-57cb-4d9c-99a9-ceedc30918a7", // статичный UUID для теста
-  "x-device-tag": "disabled",
-  "x-platform-version": "Windows Chrome 156",
-  "x-magnit-bff": "1",
-  origin: "https://magnit.ru",
-  referer: "https://magnit.ru/",
+  "Content-Type": "application/json",
+  Accept: "application/json, text/event-stream",
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
 };
 
-// В ответе Магнита цена бывает числом или объектом вида { value: ... }.
-function extractPrice(payload) {
-  const item =
-    payload?.goods?.[0] ??
-    payload?.products?.[0] ??
-    payload?.items?.[0] ??
-    (Array.isArray(payload) ? payload[0] : payload);
-  const raw = item?.priceWithDiscount ?? item?.price;
-  return raw !== null && typeof raw === "object" ? (raw.value ?? raw.amount) : raw;
-}
+async function searchItems(query) {
+  const response = await fetch(API_URL, {
+    method: "POST",
+    headers: HEADERS,
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "tools/call",
+      params: {
+        name: "storefront_products_search",
+        arguments: { query, address: ADDRESS, page: 1 },
+      },
+    }),
+    signal: AbortSignal.timeout(10000),
+  });
 
-async function requestPrice(target) {
-  let firstError;
-
-  // Схема /v2/goods/search не подтверждена: пробуем поиск по тексту,
-  // затем старую структуру по идентификаторам.
-  for (const body of [
-    { storeCode: target.shop_code, query: target.internal_name },
-    { storeCodes: [target.shop_code], productIDs: [target.product_id] },
-  ]) {
-    try {
-      const response = await fetch(API_URL, {
-        method: "POST",
-        headers: HEADERS,
-        body: JSON.stringify(body),
-        signal: AbortSignal.timeout(10000),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Магнит ответил со статусом ${response.status}`);
-      }
-
-      const price = extractPrice(await response.json());
-      if (price !== undefined && price !== null) return price;
-
-      throw new Error("В ответе Магнита нет цены");
-    } catch (error) {
-      firstError ??= error;
-    }
+  if (!response.ok) {
+    throw new Error(`MCP ответил со статусом ${response.status}`);
   }
 
-  throw firstError;
+  const rpc = await response.json();
+  if (rpc.error) {
+    throw new Error(rpc.error.message ?? "Ошибка MCP");
+  }
+
+  // result.content[0].text — строка с JSON вида { ok: true, data: { items: [...] } }.
+  const text = rpc.result?.content?.[0]?.text;
+  if (!text) {
+    throw new Error("Неожиданный ответ MCP: нет result.content[0].text");
+  }
+
+  return JSON.parse(text).data?.items ?? [];
 }
 
 exports.handler = async () => {
@@ -65,11 +50,15 @@ exports.handler = async () => {
   const target = Array.isArray(targets) ? targets[0] : targets;
 
   try {
-    const price = await requestPrice(target);
+    const items = await searchItems(target.internal_name);
+    const item = items[0];
+    if (!item) {
+      throw new Error("Лента ничего не нашла по запросу");
+    }
 
     return {
       statusCode: 200,
-      body: JSON.stringify({ product: target.internal_name, price }),
+      body: JSON.stringify({ product: item.name, price: item.price }),
     };
   } catch (error) {
     return {
