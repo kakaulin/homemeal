@@ -1,72 +1,84 @@
+"use strict";
+
+const magnit = require("./adapters/magnit");
+const lenta = require("./adapters/lenta");
 const targets = require("./targets.json");
 
-const API_URL = "https://mcp.lenta.com/mcp";
-// Адрес точки, по которой MCP определяет магазин.
-const ADDRESS = "Москва, Ленинский проспект 45";
+const DEFAULT_ADDRESS = lenta.DEFAULT_ADDRESS;
 
-const HEADERS = {
-  "Content-Type": "application/json",
-  Accept: "application/json, text/event-stream",
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-};
-
-async function searchItems(query) {
-  const response = await fetch(API_URL, {
-    method: "POST",
-    headers: HEADERS,
-    body: JSON.stringify({
-      jsonrpc: "2.0",
-      id: 1,
-      method: "tools/call",
-      params: {
-        name: "storefront_products_search",
-        arguments: { query, address: ADDRESS, page: 1 },
-      },
-    }),
-    signal: AbortSignal.timeout(10000),
-  });
-
-  if (!response.ok) {
-    throw new Error(`MCP ответил со статусом ${response.status}`);
-  }
-
-  const rpc = await response.json();
-  if (rpc.error) {
-    throw new Error(rpc.error.message ?? "Ошибка MCP");
-  }
-
-  // result.content[0].text — строка с JSON вида { ok: true, data: { items: [...] } }.
-  const text = rpc.result?.content?.[0]?.text;
-  if (!text) {
-    throw new Error("Неожиданный ответ MCP: нет result.content[0].text");
-  }
-
-  return JSON.parse(text).data?.items ?? [];
+function firstTarget() {
+  return Array.isArray(targets) ? targets[0] : targets;
 }
 
-exports.handler = async () => {
-  // targets.json — массив целей; ответ API Gateway описывает один товар, берём первую.
-  const target = Array.isArray(targets) ? targets[0] : targets;
+exports.handler = async (event) => {
+  const target = firstTarget();
+  const query = event?.queryStringParameters ?? {};
 
-  try {
-    const items = await searchItems(target.internal_name);
-    const item = items[0];
-    if (!item) {
-      throw new Error("Лента ничего не нашла по запросу");
-    }
+  const term = query.q || target.internal_name;
+  const store = String(query.store || target.store || "magnit").toLowerCase();
+  const shopCode = String(query.shopCode || target.shop_code);
+  const storeType = String(query.storeType || target.shop_type || "1");
+  const catalogType = String(query.catalogType || target.catalog_type || "1");
+  const address = query.address || DEFAULT_ADDRESS;
 
+  const tasks = [];
+  if (store === "magnit" || store === "all") {
+    tasks.push({
+      name: "magnit",
+      run: () => magnit.searchMagnit({ shopCode, term, storeType, catalogType }),
+    });
+  }
+  if (store === "lenta" || store === "all") {
+    tasks.push({ name: "lenta", run: () => lenta.searchLenta({ term, address }) });
+  }
+
+  if (tasks.length === 0) {
     return {
-      statusCode: 200,
-      body: JSON.stringify({ product: item.name, price: item.price }),
-    };
-  } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({
-        error: error.message,
-        cause: error.cause ? error.cause.code || error.cause.message : "Unknown",
-      }),
+      statusCode: 400,
+      body: JSON.stringify({ error: `Неизвестный store: ${store}` }),
     };
   }
+
+  // Сбой одного магазина не должен ломать ответ второго.
+  const settled = await Promise.allSettled(tasks.map((task) => task.run()));
+
+  const items = [];
+  const errors = [];
+
+  settled.forEach((result, index) => {
+    if (result.status === "fulfilled") {
+      items.push(...result.value);
+      return;
+    }
+
+    const reason = result.reason;
+    errors.push({
+      store: tasks[index].name,
+      error: reason?.message ?? String(reason),
+      cause: reason?.cause ? reason.cause.code || reason.cause.message : "Unknown",
+    });
+  });
+
+  if (items.length === 0) {
+    return {
+      statusCode: 502,
+      body: JSON.stringify({ error: "Не удалось получить цены", errors }),
+    };
+  }
+
+  const first = items[0];
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({
+      // обратная совместимость с PriceWidget
+      product: first.name,
+      price: first.price,
+      pricePer100: first.pricePer100,
+      weightGrams: first.weightGrams,
+      store: first.store,
+      items,
+      errors,
+    }),
+  };
 };

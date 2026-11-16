@@ -1,0 +1,877 @@
+{
+  "category": null,
+  "complimentaryItemCount": 0,
+  "containerConfig": {
+    "media": {
+      "backgroundColor": "#FFF5F5F5",
+      "cornerRadius": 12
+    }
+  },
+  "correctedTerm": null,
+  "fastCategories": [],
+  "items": [
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF2A66",
+          "backgroundGradient": "gradient/loyalty/plus small",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "По карте",
+          "textColor": "#FFFFFF"
+        },
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundGradient": "gradient/payment/mpay",
+          "text": "+15% с Магнит Пэй",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/rJ7YFrpYn5jqLXtsKwPtGkz0LEqPW18GSnrtsJ7UoUk/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/9072651501/image/c7a3ab766489eef72db9699cac8debb0.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/buun5SFh3MQUD9iXFEEbLkqfzhwf1D_GBGPRsDilbYc/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/9072651501/image/d646726b553c49d392fb5da874ba57c6.jpeg@webp"
+        }
+      ],
+      "id": "9072651501",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Бананы",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 15299,
+      "productId": "9072651501",
+      "promotion": {
+        "discountPercent": null,
+        "endDate": "2026-11-23T23:59:59Z",
+        "isPromotion": true,
+        "oldPrice": null
+      },
+      "quantity": 31380,
+      "ratings": {
+        "commentsCount": 23763,
+        "external": null,
+        "rating": 4.8,
+        "scoresCount": 468307
+      },
+      "seoCode": "banany",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": true,
+        "minStep": 1,
+        "shelfLabel": "1кг",
+        "shelfWeight": 1000,
+        "step": 1000,
+        "unitLabel": "1кг",
+        "unitPrice": 15299
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "3 + 1 по карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/wCsxtJJaLBn9subL9ZfXhLroPyMq4znLiwIV0CuGbcs/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1812432014/image/18926048e43948a3ca51cb97e4234236.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/RuFYsNeYkEbsqtBpGpdghKy_erdovO_G8fA3ue1qHBk/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1812432014/image/ef2c20bb6e8a11aaf96034aef695af8d.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/EUbgwdCUOzoERSTvSzN8PxyBZbjaxua-yPUJQbz6XAk/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1812432014/image/4fcc07e244d1f819c9016712a3869362.jpeg@webp"
+        }
+      ],
+      "id": "1812432014",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Творог детский Яблоко-банан с 6 месяцев Агуша 3.9% 100г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 3699,
+      "productId": "1812432014",
+      "promotion": {
+        "discountPercent": 25,
+        "endDate": "2026-11-24T00:00:00Z",
+        "isPromotion": true,
+        "oldPrice": 4932
+      },
+      "quantity": 7,
+      "ratings": {
+        "commentsCount": 147,
+        "external": null,
+        "rating": 5,
+        "scoresCount": 4387
+      },
+      "seoCode": "tvorog_fruktovyy_agusha_yabloko_banan_100g",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "3 + 1 по карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/kCb9EzMekNeiierSraj4sykiyq28wfxVvZJmZTHuqQI/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000177278/image/2a39a1c56fde00f7413acf6edb674946.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/RPDevwKf_vbAtf-mmMd0G83qhFoGs-Vha697KQ4qG4I/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000177278/image/1cf19f0e0f27ddc900d3799b9667ee09.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/zOpZ9Cim99GsuIL3zyJkxsTRNtroAlZqX0CQln4GHPU/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000177278/image/433e7ac8dffe54c0e4afd2c196bd7045.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/4I7x7Pw0AFGJgEWkRHzdWO0CAYA_fN0qBRtc6o0Od0k/rs:fit:416:416/plain/s3://img-dostavka/uf/e5e/e5edddb7bea7c842dbc15f7b62d1ed6f/c662542da4a7e633c710caeedb4509d2.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/9c8v2rjLyhBpuQBnvKp357Z51Ty0H4lDw95SgnAT42U/rs:fit:416:416/plain/s3://img-dostavka/uf/6b5/6b5e248be0300a4ad33f284dad3c98d8/03fc7c464d54db2b909c420babc49ebb.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/BihFvLb4DpTPB6a7xZ5UT5L4Vz_rD1s0hff2ZHpmE4Q/rs:fit:416:416/plain/s3://img-dostavka/uf/1ef/1ef0a09076d9314a59b7ba3b047737fa/a9394b88b77a68c81604a1c9a6175b62.jpeg@webp"
+        }
+      ],
+      "id": "1000177278",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Творог детский Клубника банан с 6 месяцев Агуша 3.8% 100г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 3699,
+      "productId": "1000177278",
+      "promotion": {
+        "discountPercent": 25,
+        "endDate": "2026-11-24T00:00:00Z",
+        "isPromotion": true,
+        "oldPrice": 4932
+      },
+      "quantity": 3,
+      "ratings": {
+        "commentsCount": 208,
+        "external": null,
+        "rating": 4.9,
+        "scoresCount": 4570
+      },
+      "seoCode": "tvorog_agusha_zasypay_ka_klubnika_banan_melissa_3_8_100g",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF2A66",
+          "backgroundGradient": "gradient/loyalty/plus small",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "По карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/5NO2YEcXMCGLyUuseKl5c6uEE1fG5qGAiMD7Hz5aODc/rs:fit:416:416/plain/s3://img-dostavka/uf/c91/c91420d92069339280f00d858631eaec/bef7b74d7e557108a7051c73ca2a677b.jpeg@webp"
+        }
+      ],
+      "id": "1000380335",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Пюре Яблоко банан клубника Дары Кубани 90г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 3499,
+      "productId": "1000380335",
+      "promotion": {
+        "discountPercent": null,
+        "endDate": "2027-01-26T23:59:59Z",
+        "isPromotion": true,
+        "oldPrice": null
+      },
+      "quantity": 15,
+      "ratings": {
+        "commentsCount": 86,
+        "external": null,
+        "rating": 4.8,
+        "scoresCount": 2318
+      },
+      "seoCode": "dary_kubani_pyure_frukt_iz_yabl_ban_klub_s_6mes_90g_d_p",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundGradient": "gradient/payment/mpay",
+          "text": "+15% с Магнит Пэй",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/5M281uWOMlGWCcJc1ffOIZoIo9PcY-qdNSS4xOAnyIo/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000553442/image/607943417493787fdb4c52223b4ba3bc.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/u0BW0TkKBiCzq5AsWC81nbPePRisbVasdA2sT4ytBc4/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000553442/image/85d314dcf340de2603e77450f6730d47.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/CWsVbirDD0UDJ9baYLpM3bid2WGy5-RiYGL4ik7PRRM/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000553442/image/eb45cfa558197d4020791cd210497263.jpeg@webp"
+        }
+      ],
+      "id": "1000553442",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Напиток кисломолочный Exponenta High-Pro Малина-банан высокобелковый обезжиренный 250г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 17999,
+      "productId": "1000553442",
+      "promotion": {
+        "discountPercent": null,
+        "endDate": null,
+        "isPromotion": false,
+        "oldPrice": null
+      },
+      "quantity": 10,
+      "ratings": {
+        "commentsCount": 27,
+        "external": null,
+        "rating": 4.9,
+        "scoresCount": 362
+      },
+      "seoCode": "exponenta_napitok_k_m_malina_banan_obezzh_250g_pl_st",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "2 + 1 по карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/vnV3XYh31zr73Fn3JnWuojjGTjZOAoVkf5oQ87hR3Ms/rs:fit:416:416/plain/s3://img-dostavka/uf/f99/f999e76c2683243a85741aab4e04d478/4ade6a8ab8f799c9b8e8bad068679085.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/AMkk8vCZLvrzyMfkq6NSxtfUVhbYZjS3pUoe_Na9dLE/rs:fit:416:416/plain/s3://img-dostavka/uf/c30/c3044d03f6cfaa5c01cd6d293a2a8ada/bf3cdc747e9c61b0a95b7bbe85ebafa1.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/lf7T8Y1U2clq-afWU6LQAAOIiLO89QN5JkB8WUQbeoQ/rs:fit:416:416/plain/s3://img-dostavka/uf/f01/f018b6ffb57bd7a7828ed631f760c1fa/ef785f3fc76df85e53b08a60a63557b1.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/2n4TknHwgcWhjqqagr0Cf1xEQn9AaR3YnjYArxmnQG4/rs:fit:416:416/plain/s3://img-dostavka/uf/a78/a78c1a6662cfe88c0b82aa446d1897b0/1eaeb6224fb8fc1c177e4860a764743c.jpeg@webp"
+        }
+      ],
+      "id": "1000385200",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Питьевой йогурт со вкусом клубники и банана с 8 месяцев Агуша 180г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 3999,
+      "productId": "1000385200",
+      "promotion": {
+        "discountPercent": 33,
+        "endDate": "2026-11-17T00:00:00Z",
+        "isPromotion": true,
+        "oldPrice": 5999
+      },
+      "quantity": 8,
+      "ratings": {
+        "commentsCount": 124,
+        "external": null,
+        "rating": 4.8,
+        "scoresCount": 3381
+      },
+      "seoCode": "agusha_yogurt_klubnika_banan_2_7_180g_plastikovaya_butylka_ao_vimm_bill_dann_12",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF2A66",
+          "backgroundGradient": "gradient/loyalty/plus small",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "По карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/nNFy8qFEKE1cU97OcU9i8iEPEFz6FSLF7C_F3rJvb3g/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000137744/image/128795f5d2ac7b336c9bbd49c39735cb.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/XcW1Pr1fMZTkyNiXY0jlQTVIx30WzVOHDf0baUJHFes/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000137744/image/0d273fad619208f4c36782264302bb40.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/OYojRDmc6Uxbmtd1NCOxGy2Kv5MsSllE-aC330CvqZM/rs:fit:416:416/plain/s3://img-dostavka/uf/068/0686502fa6d582cf5a94b4a88ed4d8b2/3176591f295e81f93a5baae7a8fc702c.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/kSVUS9HLsaBalvRqbfYFx0hY8m6upngFx5TGOQAG2OI/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000137744/image/73f8f0ecef7aea4fdf8c9335a451305d.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/NYV45DZ04iN298lUthqBtrhV6CIAiJJso6Lu6togF3A/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000137744/image/56492ecc3f85de0d1835a848688767fe.jpeg@webp"
+        }
+      ],
+      "id": "1000137744",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Творог детский Клубника банан и пломбир Растишка 3.5% 6шт*45г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 8299,
+      "productId": "1000137744",
+      "promotion": {
+        "discountPercent": null,
+        "endDate": "2027-02-16T23:59:59Z",
+        "isPromotion": true,
+        "oldPrice": null
+      },
+      "quantity": 8,
+      "ratings": {
+        "commentsCount": 274,
+        "external": null,
+        "rating": 4.9,
+        "scoresCount": 6175
+      },
+      "seoCode": "tvorog_rastishka_klubnika_banan_plombir_3_5_6sht_kh45g",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "2 + 1 по карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/WnjM8T-F6LWYJr5VCPbj7T-ZvKTWfqKLVcfrc6-AbFo/rs:fit:416:416/plain/s3://img-dostavka/uf/b99/b99fc266511614fa199e57920f5a5b07/8e942244fae19e671a4cbb5221cc3ff1.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/MJAgrsllYPZiGjDt1JBKrrwT-r1FcXCWG3BDrwgBvpc/rs:fit:416:416/plain/s3://img-dostavka/uf/40a/40a82fe1ba8e07031f6c1c4a72334e40/d7fe28202d96ed10d9f79c2bff6b7abe.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/KgV4Rw1KRFfJfM3_epAQDo7zuETDwlePkjdrF_1T41c/rs:fit:416:416/plain/s3://img-dostavka/uf/53f/53fa636921272179bc9a5ce4257478c9/cda054f651c324428aa62610844aa217.jpeg@webp"
+        }
+      ],
+      "id": "1000206971",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Питьевой йогурт с клубникой и бананом с 8 месяцев Фрутоняня 2.5% 200мл",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 4999,
+      "productId": "1000206971",
+      "promotion": {
+        "discountPercent": 33,
+        "endDate": "2026-11-24T00:00:00Z",
+        "isPromotion": true,
+        "oldPrice": 7499
+      },
+      "quantity": 6,
+      "ratings": {
+        "commentsCount": 84,
+        "external": null,
+        "rating": 4.8,
+        "scoresCount": 2140
+      },
+      "seoCode": "yogurt_frutonyanya_klubnika_i_banan_2_5_200g",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF2A66",
+          "backgroundGradient": "gradient/loyalty/plus small",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "По карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/atT0StDS8VbKUaqqFXcMOaKhcI4ZNPDsJfwnlxJY5aY/rs:fit:416:416/plain/s3://img-dostavka/uf/224/2245a1bd93c8c82d1cb4c5c8861c06e4/5d376e2b137f3ddc89792307bb5aff90.jpeg@webp"
+        }
+      ],
+      "id": "1000324078",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Пюре Яблоко банан печенье с 6 месяцев Дары Кубани 90г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 3499,
+      "productId": "1000324078",
+      "promotion": {
+        "discountPercent": null,
+        "endDate": "2027-01-26T23:59:59Z",
+        "isPromotion": true,
+        "oldPrice": null
+      },
+      "quantity": 13,
+      "ratings": {
+        "commentsCount": 81,
+        "external": null,
+        "rating": 5,
+        "scoresCount": 2160
+      },
+      "seoCode": "dary_kubani_pyure_yabl_ban_pechene_s_6mes_90g_doy_pak_ooo_yuzhnaya_sokovaya_kompaniya_6",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundGradient": "gradient/loyalty/plus small",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "от 2 шт по карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/_DHXPqnxiUWU99C6gJlSQ-mLfkEoKKz1_4812EcR5_Q/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000322391/image/cb8defff69ed9899d8722c00110f1b86.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/wnOEwHLlF5P-oKP1YsGPoz4HIHQD8ADLux1-h01TTnI/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000322391/image/1b26ba609ca061dc1e98c406036a85c4.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/0eUjD12UXxUYI5cx39r_EARXvy1TOH2JXmv3QpkKOAk/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000322391/image/98cbf57e9623151a9ac1820538ca9188.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/ltWZpdRBtb9Uo9VKMr59mXamKGAwS6nkvpocXuzrnA8/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000322391/image/48b8f0bfb83a835fa0a56c7d61cb9aa2.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/xaOlEBshn0vgrQyBbJGJ5aKPA36QXoTJQ22MtSEXhdk/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000322391/image/5eb029aae7d058da3b955df89085191e.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/2nNUsXJlD279t1u5kBwAzbk7O6QOmY3fLVjMFOFeID4/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000322391/image/e39b68cffab5836c6aead995488a3502.jpeg@webp"
+        }
+      ],
+      "id": "1000322391",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Смузи киви ананас манго яблоко банан со злаками и витаминами J7 300мл",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 6999,
+      "productId": "1000322391",
+      "promotion": {
+        "discountPercent": 26,
+        "endDate": "2026-11-17T00:00:00Z",
+        "isPromotion": true,
+        "oldPrice": 9499
+      },
+      "quantity": 10,
+      "ratings": {
+        "commentsCount": 394,
+        "external": null,
+        "rating": 4.8,
+        "scoresCount": 4135
+      },
+      "seoCode": "kokteyl_j7_poleznyy_zavtrak_kivi_ananas_yabloko_banan_i_mango_300ml",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF2A66",
+          "backgroundGradient": "gradient/loyalty/plus small",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "По карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/rTUGM2qpYN34M3MetWwc6HdRi7COUvORiB4JcG1khyA/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000385103/image/9f61f5535d9e8c8aa7c0779198d31e64.jpeg@webp"
+        }
+      ],
+      "id": "1000385103",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Паста творожная груша и банан Савушкин 3.5% 120г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 5699,
+      "productId": "1000385103",
+      "promotion": {
+        "discountPercent": null,
+        "endDate": "2027-01-12T23:59:59Z",
+        "isPromotion": true,
+        "oldPrice": null
+      },
+      "quantity": 13,
+      "ratings": {
+        "commentsCount": 198,
+        "external": null,
+        "rating": 4.9,
+        "scoresCount": 2925
+      },
+      "seoCode": "savushkin_produkt_pasta_tvorozhnaya_desertnaya_3_5_grusha_banan_120g_plastikovyy_stakan_8",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundIcon": "Base / 24 / Loyalty / Bonus / White",
+          "text": "2 + 2 по карте",
+          "textColor": "#FFFFFF"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/yzPPCRxmHu6lUImU5qGGB98oQWOD8MhrN33vPgqhXeQ/rs:fit:416:416/plain/s3://img-dostavka/pim/goods/1000222650/image/1863f22b0aaeeb88a648032ac64464b4.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/4roXPGpdD9RZQ-92dVHg-YkN_KSbVVh3q45IKm5buCk/rs:fit:416:416/plain/s3://img-dostavka/uf/0c5/0c57072153096a407b8dd2603e042d77/7270aa91f90ba5f582095461cf497d28.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/5gYhaaHjx_ZphMOkb3ocavqX_ai2BXfxahmtgXcvtX8/rs:fit:416:416/plain/s3://img-dostavka/uf/526/5261613f4a06a3e482404a4070aba220/fc600de782fba994a63be5c4eeda208c.jpeg@webp"
+        },
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/5HFMO77FBh78pdSu5V98u4krTOF0_JU5qH9_5eVDw4I/rs:fit:416:416/plain/s3://img-dostavka/uf/d9b/d9bd652f56be1405772da5c064103cee/0d1de2e13fa2c8a5cffe639234856e02.jpeg@webp"
+        }
+      ],
+      "id": "1000222650",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Каша детская жидкая молочная злаковая Агуша Груша-Банан 200мл с 6 месяцев",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 3999,
+      "productId": "1000222650",
+      "promotion": {
+        "discountPercent": 50,
+        "endDate": "2026-11-24T00:00:00Z",
+        "isPromotion": true,
+        "oldPrice": 7998
+      },
+      "quantity": 13,
+      "ratings": {
+        "commentsCount": 120,
+        "external": null,
+        "rating": 5,
+        "scoresCount": 3496
+      },
+      "seoCode": "kasha_agusha_zasypay_ka_molochnaya_zlaki_grusha_banan_200ml",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    }
+  ],
+  "offerCategoryIds": null,
+  "pagination": {
+    "hasMore": true,
+    "limit": 12,
+    "nextOffset": 12,
+    "offset": 0,
+    "totalCount": 31
+  },
+  "resultId": "fa63955b-d339-473d-8ba9-7ac1d3dd588f",
+  "term": "бананы",
+  "videoDelay": 1
+}

@@ -1,8 +1,11 @@
 openapi: 3.0.0
 info:
   title: Home Meal price API
-  version: 1.0.0
-  description: Цена товара в Магните по данным targets.json
+  version: 1.1.0
+  description: |
+    Цены на товар из двух магазинов: Магнит (`webgate/v2/goods/search`)
+    и Лента (MCP `storefront_products_search`).
+    По умолчанию берётся цель из targets.json, магазин — из её поля store.
 servers:
   - url: https://your-api-gateway-url
 
@@ -16,10 +19,39 @@ paths:
   /get-price:
     get:
       operationId: getPrice
-      summary: Цена товара из targets.json
+      summary: Цена товара из Магнита и/или Ленты
+      parameters:
+        - name: q
+          in: query
+          required: false
+          description: Поисковый запрос (по умолчанию internal_name из targets.json)
+          schema:
+            type: string
+        - name: store
+          in: query
+          required: false
+          description: Какой магазин опрашивать; all — оба параллельно
+          schema:
+            type: string
+            enum: [magnit, lenta, all]
+            default: magnit
+        - name: shopCode
+          in: query
+          required: false
+          description: Код магазина Магнита (строка, ведущие нули сохраняются)
+          schema:
+            type: string
+            default: "303857"
+        - name: address
+          in: query
+          required: false
+          description: Адрес для определения магазина Ленты
+          schema:
+            type: string
+            default: "Москва, Ленинский проспект 45"
       responses:
         "200":
-          description: Цена найдена
+          description: Цены найдены; верхний уровень повторяет первый товар для PriceWidget
           content:
             application/json:
               schema:
@@ -29,8 +61,26 @@ paths:
                     type: string
                   price:
                     type: number
-        "500":
-          description: Ошибка парсера
+                  pricePer100:
+                    type: number
+                    nullable: true
+                  weightGrams:
+                    type: number
+                    nullable: true
+                  store:
+                    type: string
+                  items:
+                    type: array
+                    items:
+                      type: object
+                  errors:
+                    type: array
+                    items:
+                      type: object
+        "400":
+          description: Неизвестный параметр store
+        "502":
+          description: Ни один магазин не отдал товары
       x-yc-apigateway-integration:
         type: cloud_functions
         function_id: ${env.YC_FUNCTION_ID}

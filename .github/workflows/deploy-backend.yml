@@ -38,7 +38,7 @@ jobs:
           yc config profile activate sa-profile
 
       - name: Zip parser
-        run: cd parser && zip -r ../parser.zip index.js targets.json
+        run: cd parser && zip -r ../parser.zip index.js targets.json adapters lib -x "*.test.js"
 
       - name: Deploy function
         env:

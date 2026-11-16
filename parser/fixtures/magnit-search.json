@@ -1,0 +1,91 @@
+{
+  "category": null,
+  "complimentaryItemCount": 0,
+  "containerConfig": {
+    "media": {
+      "backgroundColor": "#FFF5F5F5",
+      "cornerRadius": 12
+    }
+  },
+  "correctedTerm": null,
+  "fastCategories": [],
+  "items": [
+    {
+      "badges": [
+        {
+          "backgroundColor": "#FF5858",
+          "backgroundGradient": "gradient/payment/mpay",
+          "text": "+15% с Магнит Пэй",
+          "textColor": "#FFFFFF"
+        },
+        {
+          "backgroundColor": "#D6FFAE",
+          "text": "Разные производители",
+          "textColor": "#3B5803"
+        }
+      ],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/3uR-9agsSKf2Uf3KcBDnboYSiobwvkZFJ2BBTtjAjmA/rs:fit:416:416/plain/s3://img-dostavka/uf/ae6/ae6b9d0e70bcc04f32a901b0addd3cbf/3a2735e72bcb33f44f46bce97c15902c.jpeg@webp"
+        }
+      ],
+      "id": "3139480006",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Крупа Манная 800г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 3299,
+      "productId": "3139480006",
+      "promotion": {
+        "discountPercent": null,
+        "endDate": null,
+        "isPromotion": false,
+        "oldPrice": null
+      },
+      "quantity": 7,
+      "ratings": {
+        "commentsCount": 328,
+        "external": null,
+        "rating": 4.8,
+        "scoresCount": 8371
+      },
+      "seoCode": "krupa-mannaya-800g",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "303857",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    }
+  ],
+  "offerCategoryIds": null,
+  "pagination": {
+    "hasMore": false,
+    "limit": 12,
+    "nextOffset": null,
+    "offset": 0,
+    "totalCount": 1
+  },
+  "resultId": "440e8d22-d03b-4508-acbc-d5fce354f06d",
+  "term": "манная крупа",
+  "videoDelay": 1
+}

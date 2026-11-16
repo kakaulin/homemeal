@@ -4,7 +4,16 @@ import { Button, Modal } from "@heroui/react";
 import { useEffect, useState } from "react";
 
 import { PRODUCT_CATEGORIES, UNIT_OPTIONS } from "@/lib/categories";
+import { formatGrams, formatMoney } from "@/lib/format";
 import { parseNumber, parseNumberOrZero, toInputValue } from "@/lib/number";
+import {
+  buildPriceUrl,
+  priceApiBase,
+  readNutrition,
+  STORE_OPTIONS,
+  storeLabel,
+  type ApiItem,
+} from "@/lib/priceApi";
 import { createId } from "@/lib/store";
 import type { Product, ProductUnit } from "@/lib/types";
 
@@ -69,13 +78,66 @@ export function ProductFormModal({
 }) {
   const [form, setForm] = useState<FormState>(() => toForm(product));
   const [errors, setErrors] = useState<Errors>({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchStore, setSearchStore] = useState<string>(STORE_OPTIONS[0].id);
+  const [results, setResults] = useState<ApiItem[]>([]);
+  const [searching, setSearching] = useState(false);
+  const [searchError, setSearchError] = useState("");
+  const [weightHint, setWeightHint] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       setForm(toForm(product));
       setErrors({});
+      setSearchQuery(product?.name ?? "");
+      setResults([]);
+      setSearchError("");
+      setWeightHint(false);
     }
   }, [isOpen, product]);
+
+  const runSearch = async () => {
+    const url = buildPriceUrl({ q: searchQuery.trim(), store: searchStore });
+    if (!url) return;
+
+    setSearching(true);
+    setSearchError("");
+
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+      const json = await response.json();
+      const items: ApiItem[] = Array.isArray(json.items) ? json.items : [];
+
+      setResults(items.slice(0, 5));
+      if (items.length === 0) setSearchError("Ничего не найдено");
+    } catch {
+      setResults([]);
+      setSearchError("Не удалось получить цены");
+    } finally {
+      setSearching(false);
+    }
+  };
+
+  const applyItem = (item: ApiItem) => {
+    const nutrition = readNutrition(item.nutrition);
+    const per100 = item.pricePer100 != null ? item.pricePer100 : null;
+
+    setForm((current) => ({
+      ...current,
+      name: current.name.trim() ? current.name : item.name,
+      price: toInputValue(per100 ?? item.price),
+      kcal: nutrition.kcal != null ? toInputValue(nutrition.kcal) : current.kcal,
+      protein:
+        nutrition.protein != null ? toInputValue(nutrition.protein) : current.protein,
+      fat: nutrition.fat != null ? toInputValue(nutrition.fat) : current.fat,
+      carbs: nutrition.carbs != null ? toInputValue(nutrition.carbs) : current.carbs,
+    }));
+
+    setWeightHint(per100 === null);
+    setErrors((current) => ({ ...current, name: undefined, price: undefined }));
+  };
 
   const isPiece = form.unit === "piece";
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
@@ -138,9 +200,21 @@ export function ProductFormModal({
     onClose();
   };
 
-  const amountSuffix = isPiece ? "₽ / шт" : "₽ / 100 г";
-  const energySuffix = isPiece ? "ккал / шт" : "ккал / 100 г";
-  const macroSuffix = isPiece ? "г / шт" : "г / 100 г";
+  const amountSuffix = isPiece
+    ? "₽ / шт"
+    : form.unit === "ml"
+      ? "₽ / 100 мл"
+      : "₽ / 100 г";
+  const energySuffix = isPiece
+    ? "ккал / шт"
+    : form.unit === "ml"
+      ? "ккал / 100 мл"
+      : "ккал / 100 г";
+  const macroSuffix = isPiece
+    ? "г / шт"
+    : form.unit === "ml"
+      ? "г / 100 мл"
+      : "г / 100 г";
 
   return (
     <Modal
@@ -176,6 +250,79 @@ export function ProductFormModal({
                 }
               }}
             >
+              {priceApiBase ? (
+                <div
+                  className="rounded-xl border border-border bg-default/40 p-3"
+                  onKeyDown={(event) => {
+                    // Enter в поле поиска ищет товар, а не отправляет форму.
+                    if (event.key !== "Enter") return;
+                    if ((event.target as HTMLElement).tagName !== "INPUT") return;
+                    event.preventDefault();
+                    event.stopPropagation();
+                    void runSearch();
+                  }}
+                >
+                  <p className="mb-2 text-[11px] font-semibold tracking-wide text-muted uppercase">
+                    Найти в магазине
+                  </p>
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+                    <TextInput
+                      label="Запрос"
+                      value={searchQuery}
+                      onChange={setSearchQuery}
+                      placeholder="манная крупа"
+                      className="sm:flex-1"
+                    />
+                    <SelectField
+                      label="Магазин"
+                      value={searchStore}
+                      onChange={setSearchStore}
+                      options={STORE_OPTIONS.map((option) => ({
+                        id: option.id,
+                        label: option.label,
+                      }))}
+                      className="sm:w-36"
+                    />
+                    <Button
+                      variant="secondary"
+                      onPress={runSearch}
+                      isDisabled={searching || !searchQuery.trim()}
+                    >
+                      {searching ? "Ищу…" : "Найти"}
+                    </Button>
+                  </div>
+
+                  {searchError ? (
+                    <p className="mt-2 text-xs font-medium text-danger">{searchError}</p>
+                  ) : null}
+
+                  {results.length > 0 ? (
+                    <ul className="mt-2 space-y-1">
+                      {results.map((item, index) => (
+                        <li key={`${item.store}-${item.name}-${index}`}>
+                          <button
+                            type="button"
+                            onClick={() => applyItem(item)}
+                            className="w-full rounded-lg px-2 py-1.5 text-left text-sm transition-colors hover:bg-default"
+                          >
+                            <span className="font-medium">{item.name}</span>
+                            <span className="mt-0.5 block text-xs text-muted">
+                              {storeLabel(item.store)} · {formatMoney(item.price)}
+                              {item.weightGrams
+                                ? ` · ${formatGrams(item.weightGrams)}`
+                                : ""}
+                              {item.pricePer100 != null
+                                ? ` · ${formatMoney(item.pricePer100)} за 100 г`
+                                : ""}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              ) : null}
+
               <div className="grid gap-4 sm:grid-cols-2">
                 <TextInput
                   label="Название"
@@ -215,6 +362,11 @@ export function ProductFormModal({
                   suffix={amountSuffix}
                   error={errors.price}
                   isRequired
+                  hint={
+                    weightHint
+                      ? "Вес упаковки не распознан — подставлена цена за упаковку."
+                      : undefined
+                  }
                 />
                 <NumberInput
                   label="Калорийность"

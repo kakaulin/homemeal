@@ -178,7 +178,9 @@ export function ProductsScreen() {
                             {formatKcal(productKcal(product))}
                             {product.unit === "piece"
                               ? ` · ${product.gramsPerPiece ?? 0} г за штуку`
-                              : " · на 100 г"}
+                              : product.unit === "ml"
+                                ? " · на 100 мл"
+                                : " · на 100 г"}
                           </p>
                           <Macros
                             protein={macros.protein}
@@ -239,7 +241,11 @@ export function ProductsScreen() {
                                   {formatKcal(productKcal(product))}
                                 </span>
                                 <span className="block text-xs text-muted">
-                                  {product.unit === "piece" ? "за штуку" : "на 100 г"}
+                                  {product.unit === "piece"
+                                    ? "за штуку"
+                                    : product.unit === "ml"
+                                      ? "на 100 мл"
+                                      : "на 100 г"}
                                 </span>
                               </Table.Cell>
                               <Table.Cell className="tnum whitespace-nowrap text-sm">
