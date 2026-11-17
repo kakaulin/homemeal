@@ -2,10 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 
+import { useAuth } from "@/lib/authClient";
 import { cn } from "@/lib/cn";
+import { useHomeMeal } from "@/lib/store";
 
-import { IconDishes, IconMeals, IconProducts } from "./icons";
+import { GoogleAuthControl } from "./GoogleAuthControl";
+import { IconDishes, IconMeals, IconProducts, IconShield } from "./icons";
 
 const items = [
   { href: "/products", label: "Продукты", caption: "цены и КБЖУ", Icon: IconProducts },
@@ -15,6 +19,24 @@ const items = [
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const session = useAuth((state) => state.session);
+  const ready = useAuth((state) => state.ready);
+  const hydrate = useAuth((state) => state.hydrate);
+  const loadCatalog = useHomeMeal((state) => state.loadCatalog);
+
+  useEffect(() => {
+    hydrate();
+  }, [hydrate]);
+
+  useEffect(() => {
+    void loadCatalog();
+  }, [loadCatalog]);
+
+  const isAdmin = ready && session?.user.isAdmin === true;
+  const navigation = isAdmin
+    ? [...items, { href: "/admin", label: "Админка", caption: "цены и каталог", Icon: IconShield }]
+    : items;
+
   const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   return (
@@ -25,17 +47,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             HM
           </span>
           <span className="min-w-0">
-            <span className="block truncate text-lg font-bold leading-tight">
-              Home Meal
-            </span>
-            <span className="block truncate text-xs text-muted">
-              домашняя кухня в цифрах
-            </span>
+            <span className="block truncate text-lg font-bold leading-tight">Home Meal</span>
+            <span className="block truncate text-xs text-muted">домашняя кухня в цифрах</span>
           </span>
         </Link>
 
         <nav className="flex-1 space-y-1 px-3" aria-label="Основная навигация">
-          {items.map((item) => {
+          {navigation.map((item) => {
             const active = isActive(item.href);
             return (
               <Link
@@ -51,9 +69,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               >
                 <item.Icon className="mt-0.5 size-5 shrink-0" />
                 <span className="min-w-0">
-                  <span className="block text-sm font-semibold leading-5">
-                    {item.label}
-                  </span>
+                  <span className="block text-sm font-semibold leading-5">{item.label}</span>
                   <span
                     className={cn(
                       "block text-xs leading-4",
@@ -68,26 +84,27 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <div className="border-t border-border px-5 py-4 text-xs leading-5 text-muted">
-          Данные хранятся только в этом браузере.
-          <br />
-          Ничего не отправляется на сервер.
+        <div className="space-y-3 border-t border-border px-4 py-4">
+          <GoogleAuthControl compact />
+          <p className="text-xs leading-5 text-muted">
+            Данные хранятся только в этом браузере.
+          </p>
         </div>
       </aside>
 
       <div className="lg:pl-[264px]">
         <header className="sticky top-0 z-20 border-b border-border bg-surface/95 backdrop-blur lg:hidden">
-          <div className="flex items-center gap-3 px-4 py-3">
-            <span className="grid size-9 place-items-center rounded-xl bg-accent text-sm font-extrabold text-accent-foreground">
-              HM
-            </span>
-            <span className="text-base font-bold">Home Meal</span>
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <div className="flex items-center gap-3">
+              <span className="grid size-9 place-items-center rounded-xl bg-accent text-sm font-extrabold text-accent-foreground">
+                HM
+              </span>
+              <span className="text-base font-bold">Home Meal</span>
+            </div>
+            <GoogleAuthControl compact />
           </div>
-          <nav
-            className="flex gap-1 overflow-x-auto px-3 pb-3"
-            aria-label="Основная навигация"
-          >
-            {items.map((item) => {
+          <nav className="flex gap-1 overflow-x-auto px-3 pb-3" aria-label="Основная навигация">
+            {navigation.map((item) => {
               const active = isActive(item.href);
               return (
                 <Link

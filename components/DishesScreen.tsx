@@ -6,6 +6,7 @@ import { useState } from "react";
 import { calculateDish } from "@/lib/calc";
 import { DASH, formatGrams, formatKcal, formatMoney, plural } from "@/lib/format";
 import { useHomeMeal, useHydrated } from "@/lib/store";
+import { useProducts } from "@/lib/useProducts";
 import type { Dish, ServingType } from "@/lib/types";
 
 import { ConfirmDialog } from "./ConfirmDialog";
@@ -22,7 +23,7 @@ const SERVING_LABELS: Record<ServingType, string> = {
 
 export function DishesScreen() {
   const hydrated = useHydrated();
-  const products = useHomeMeal((state) => state.products);
+  const products = useProducts();
   const dishes = useHomeMeal((state) => state.dishes);
   const addDish = useHomeMeal((state) => state.addDish);
   const updateDish = useHomeMeal((state) => state.updateDish);

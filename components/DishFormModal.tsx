@@ -318,7 +318,7 @@ export function DishFormModal({
                   </Button>
                   {products.length === 0 ? (
                     <p className="mt-2 text-xs text-muted">
-                      Сначала добавьте продукты на вкладке «Продукты».
+                      В каталоге пока нет продуктов — их добавляет администратор.
                     </p>
                   ) : null}
                 </div>

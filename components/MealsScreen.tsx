@@ -6,6 +6,7 @@ import { useState } from "react";
 import { calculateDish, calculateMeal, scaleDishTotals } from "@/lib/calc";
 import { DASH, formatGrams, formatKcal, formatMoney, plural } from "@/lib/format";
 import { useHomeMeal, useHydrated } from "@/lib/store";
+import { useProducts } from "@/lib/useProducts";
 import type { Dish, Meal, Product } from "@/lib/types";
 
 import { ConfirmDialog } from "./ConfirmDialog";
@@ -63,7 +64,7 @@ function buildBreakdown(
 
 export function MealsScreen() {
   const hydrated = useHydrated();
-  const products = useHomeMeal((state) => state.products);
+  const products = useProducts();
   const dishes = useHomeMeal((state) => state.dishes);
   const meals = useHomeMeal((state) => state.meals);
   const addMeal = useHomeMeal((state) => state.addMeal);

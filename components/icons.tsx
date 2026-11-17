@@ -90,3 +90,12 @@ export function IconRefresh(props: IconProps) {
     </svg>
   );
 }
+
+export function IconShield(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <path d="M12 3 5 6v6c0 4 3 7.2 7 9 4-1.8 7-5 7-9V6l-7-3Z" />
+      <path d="m9.2 12 2 2 3.6-4" />
+    </svg>
+  );
+}

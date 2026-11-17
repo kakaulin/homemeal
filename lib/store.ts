@@ -3,19 +3,24 @@
 import { create } from "zustand";
 import { createJSONStorage, persist, type StateStorage } from "zustand/middleware";
 
-import { seedDishes, seedMeals, seedProducts } from "./seed";
-import type { Dish, Meal, Product } from "./types";
+import type { Catalog, PreferredStore } from "./catalog";
+import type { Dish, Meal } from "./types";
 
 type HomeMealState = {
-  products: Product[];
   dishes: Dish[];
   meals: Meal[];
-  /** true после чтения localStorage — до этого рендерим заглушку, чтобы не было рассинхрона гидратации. */
+  preferredStore: PreferredStore;
+
+  /** true после чтения localStorage — до этого рендерим заглушку. */
   hydrated: boolean;
 
-  addProduct: (p: Product) => void;
-  updateProduct: (id: string, patch: Partial<Product>) => void;
-  deleteProduct: (id: string) => void;
+  /** Каталог из Object Storage, не персистится. */
+  catalog: Catalog | null;
+  catalogLoading: boolean;
+  catalogError: string | null;
+
+  loadCatalog: (force?: boolean) => Promise<void>;
+  setPreferredStore: (store: PreferredStore) => void;
 
   addDish: (d: Dish) => void;
   updateDish: (id: string, patch: Partial<Dish>) => void;
@@ -28,10 +33,6 @@ type HomeMealState = {
   setHydrated: () => void;
 };
 
-/** В localStorage попадает только предметное состояние, без флагов и методов. */
-type PersistedState = Pick<HomeMealState, "products" | "dishes" | "meals">;
-
-/** Заглушка хранилища для сервера: persist не должен трогать window при SSR. */
 const serverStorage: StateStorage = {
   getItem: () => null,
   setItem: () => undefined,
@@ -40,32 +41,45 @@ const serverStorage: StateStorage = {
 
 export const useHomeMeal = create<HomeMealState>()(
   persist(
-    (set) => ({
-      products: seedProducts,
-      dishes: seedDishes,
-      meals: seedMeals,
+    (set, get) => ({
+      dishes: [],
+      meals: [],
+      preferredStore: "min",
       hydrated: false,
 
-      addProduct: (p) => set((state) => ({ products: [...state.products, p] })),
+      catalog: null,
+      catalogLoading: false,
+      catalogError: null,
 
-      updateProduct: (id, patch) =>
-        set((state) => ({
-          products: state.products.map((product) =>
-            product.id === id ? { ...product, ...patch } : product,
-          ),
-        })),
+      loadCatalog: async (force = false) => {
+        const url = process.env.NEXT_PUBLIC_CATALOG_URL;
+        const state = get();
 
-      deleteProduct: (id) =>
-        set((state) => ({
-          products: state.products.filter((product) => product.id !== id),
-          // Убираем позицию из состава блюд, чтобы не оставалось «висячих» ссылок.
-          dishes: state.dishes.map((dish) => ({
-            ...dish,
-            items: dish.items.filter((item) => item.productId !== id),
-          })),
-        })),
+        if (!url) {
+          set({ catalogError: "Каталог не настроен", catalogLoading: false });
+          return;
+        }
+        if (!force && (state.catalog || state.catalogLoading)) return;
 
-      addDish: (d) => set((state) => ({ dishes: [...state.dishes, d] })),
+        set({ catalogLoading: true, catalogError: null });
+
+        try {
+          const response = await fetch(url, { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+          const catalog = (await response.json()) as Catalog;
+          set({ catalog, catalogLoading: false });
+        } catch (error) {
+          set({
+            catalogLoading: false,
+            catalogError: error instanceof Error ? error.message : "Не удалось загрузить каталог",
+          });
+        }
+      },
+
+      setPreferredStore: (preferredStore) => set({ preferredStore }),
+
+      addDish: (dish) => set((state) => ({ dishes: [...state.dishes, dish] })),
 
       updateDish: (id, patch) =>
         set((state) => ({
@@ -83,33 +97,40 @@ export const useHomeMeal = create<HomeMealState>()(
           })),
         })),
 
-      addMeal: (m) => set((state) => ({ meals: [...state.meals, m] })),
+      addMeal: (meal) => set((state) => ({ meals: [...state.meals, meal] })),
 
       updateMeal: (id, patch) =>
         set((state) => ({
-          meals: state.meals.map((meal) =>
-            meal.id === id ? { ...meal, ...patch } : meal,
-          ),
+          meals: state.meals.map((meal) => (meal.id === id ? { ...meal, ...patch } : meal)),
         })),
 
       deleteMeal: (id) =>
-        set((state) => ({
-          meals: state.meals.filter((meal) => meal.id !== id),
-        })),
+        set((state) => ({ meals: state.meals.filter((meal) => meal.id !== id) })),
 
       setHydrated: () => set({ hydrated: true }),
     }),
     {
       name: "home-meal-mvp",
-      version: 1,
-      storage: createJSONStorage<PersistedState>(() =>
-        typeof window === "undefined" ? serverStorage : window.localStorage,
+      version: 2,
+      storage: createJSONStorage<Pick<HomeMealState, "dishes" | "meals" | "preferredStore">>(
+        () => (typeof window === "undefined" ? serverStorage : window.localStorage),
       ),
       partialize: (state) => ({
-        products: state.products,
         dishes: state.dishes,
         meals: state.meals,
+        preferredStore: state.preferredStore,
       }),
+      // v1 содержал демо-каталог и примеры блюд — сбрасываем, каталог теперь с сервера.
+      migrate: (persisted, version) => {
+        if (version < 2) {
+          return { dishes: [], meals: [], preferredStore: "min" as PreferredStore };
+        }
+        return persisted as {
+          dishes: Dish[];
+          meals: Meal[];
+          preferredStore: PreferredStore;
+        };
+      },
       skipHydration: true,
       onRehydrateStorage: () => (state) => {
         state?.setHydrated();
@@ -118,7 +139,6 @@ export const useHomeMeal = create<HomeMealState>()(
   ),
 );
 
-/** До чтения localStorage показываем одинаковую на сервере и клиенте заглушку. */
 export const useHydrated = () => useHomeMeal((state) => state.hydrated);
 
 export const createId = (prefix: string) => {
