@@ -3,7 +3,8 @@
 const { calcPricePer100, parseWeightGrams } = require("../lib/weight");
 
 const MCP_URL = "https://mcp.lenta.com/mcp";
-const DEFAULT_ADDRESS = "Москва, Ленинский проспект 45";
+const DEFAULT_STORE_ID = 73; // Новосибирск, Большевистская ул., 52/1 (Гипер)
+const DEFAULT_ADDRESS = "Новосибирск, Большевистская улица, 52/1";
 const PROTOCOL_VERSION = "2024-11-05";
 const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
@@ -97,11 +98,49 @@ async function callTool(name, args) {
   }
 }
 
+function toolPayload(result) {
+  const text = result?.content?.[0]?.text;
+  if (!text) throw new Error("Неожиданный ответ MCP: нет result.content[0].text");
+  return JSON.parse(text);
+}
+
+/** id товара из ссылки https://lenta.com/product/...-51814/ или из строки "51814". */
+function parseLentaUrlOrId(input) {
+  if (input == null) return null;
+
+  const text = String(input).trim();
+  if (/^\d+$/.test(text)) return Number(text);
+
+  const clean = text.split(/[?#]/)[0].replace(/\/+$/, "");
+  const match = clean.match(/-(\d+)$/) ?? clean.match(/\/(\d+)$/);
+  return match ? Number(match[1]) : null;
+}
+
 /**
- * MCP storefront_products_search сегодня КБЖУ не отдаёт: в живом ответе по «молоко»
- * полей nutrition нет вовсе. Функция приводит любые будущие варианты имён
- * к каноническому { kcal, protein, fat, carbs } (значения на 100 г).
+ * КБЖУ из строки вида «Белки – 13г, жиры – 1,5г, углеводы – 72г, 350 Ккал».
+ * В карточке Ленты состав приходит текстом, а не структурой.
  */
+function parseNutritionText(text) {
+  if (typeof text !== "string" || !text.trim()) return null;
+
+  const take = (pattern) => {
+    const match = text.match(pattern);
+    if (!match) return null;
+    const value = Number(match[1].replace(",", "."));
+    return Number.isFinite(value) ? value : null;
+  };
+
+  const nutrition = {
+    kcal: take(/([\d.,]+)\s*ккал/i) ?? take(/ккал[^\d]*([\d.,]+)/i),
+    protein: take(/белк[а-яё]*[^\d]*([\d.,]+)/i),
+    fat: take(/жир[а-яё]*[^\d]*([\d.,]+)/i),
+    carbs: take(/углевод[а-яё]*[^\d]*([\d.,]+)/i),
+  };
+
+  return Object.values(nutrition).some((value) => value !== null) ? nutrition : null;
+}
+
+/** КБЖУ объекта (если сервер когда-нибудь начнёт отдавать структуру). */
 const NUTRITION_KEYS = {
   kcal: ["kcal", "calories", "energy"],
   protein: ["protein", "proteins"],
@@ -110,7 +149,7 @@ const NUTRITION_KEYS = {
 };
 
 function normalizeNutrition(raw) {
-  if (!raw || typeof raw !== "object") return null;
+  if (!raw || typeof raw !== "object") return parseNutritionText(raw);
 
   const pick = (keys) => {
     for (const key of keys) {
@@ -133,7 +172,6 @@ function normalizeNutrition(raw) {
 function normalizeLentaItem(item, storeId) {
   const price = Number(item.price);
   const priceRegular = item.priceRegular != null ? Number(item.priceRegular) : null;
-  const isWeighted = false;
   const weightGrams = parseWeightGrams(item.package ?? item.name);
 
   return {
@@ -145,7 +183,7 @@ function normalizeLentaItem(item, storeId) {
     price,
     priceRegular,
     discountPercent: item.discountPercent ?? null,
-    isWeighted,
+    isWeighted: false,
     weightGrams,
     pricePer100: calcPricePer100(price, weightGrams),
     quantity: item.stock ?? null,
@@ -153,23 +191,84 @@ function normalizeLentaItem(item, storeId) {
   };
 }
 
-async function searchLenta({ term, address = DEFAULT_ADDRESS }) {
-  const result = await callTool("storefront_products_search", {
-    query: term,
-    address,
-    page: 1,
-  });
-
-  const text = result?.content?.[0]?.text;
-  if (!text) {
-    throw new Error("Неожиданный ответ MCP: нет result.content[0].text");
+/** Чистая нормализация карточки storefront_product_details. */
+function parseLentaDetailsResponse(item) {
+  if (!item || !item.name) {
+    throw new Error("Лента вернула пустую карточку товара");
   }
 
-  const payload = JSON.parse(text);
-  const items = payload?.data?.items ?? [];
-  const storeId = payload?.data?.storeId;
+  const price = Number(item.price);
+  const priceRegular = item.priceRegular != null ? Number(item.priceRegular) : null;
+  const weightGrams = parseWeightGrams(item.package ?? item.name);
+  const stock = typeof item.stock === "number" ? item.stock : null;
 
-  return items.map((item) => normalizeLentaItem(item, storeId));
+  return {
+    store: "lenta",
+    shopCode: null,
+    id: String(item.id),
+    productId: null,
+    name: item.name,
+    price,
+    priceRegular,
+    discountPercent: item.discountPercent ?? null,
+    isWeighted: false,
+    weightGrams,
+    pricePer100: calcPricePer100(price, weightGrams),
+    quantity: stock,
+    ean: item.ean ?? null,
+    url: item.url ?? null,
+    inStock: stock !== null && stock > 0 && Number.isFinite(price) && price > 0,
+    suggestedNutrition: normalizeNutrition(item.nutrition),
+  };
 }
 
-module.exports = { searchLenta, DEFAULT_ADDRESS };
+async function searchLenta({ term, storeId = DEFAULT_STORE_ID, address } = {}) {
+  const args = { query: term, page: 1 };
+
+  if (Number.isFinite(Number(storeId))) {
+    args.storeId = Number(storeId);
+  } else if (address) {
+    args.address = address;
+  }
+
+  const payload = toolPayload(
+    await callTool("storefront_products_search", args),
+  );
+
+  const items = payload?.data?.items ?? [];
+  const resolvedStoreId = payload?.data?.storeId ?? storeId;
+
+  return items.map((item) => normalizeLentaItem(item, resolvedStoreId));
+}
+
+/** Точечное получение товара по id через storefront_product_details. */
+async function fetchLentaById({ id, storeId = DEFAULT_STORE_ID } = {}) {
+  const productId = parseLentaUrlOrId(id);
+  if (!Number.isFinite(productId)) {
+    throw new Error(`Не удалось извлечь id товара Ленты из «${id}»`);
+  }
+
+  const payload = toolPayload(
+    await callTool("storefront_product_details", {
+      id: Number(productId),
+      storeId: Number(storeId),
+    }),
+  );
+
+  const item = payload?.data?.item;
+  if (!item) {
+    throw new Error(`Лента не нашла товар ${productId}`);
+  }
+
+  return parseLentaDetailsResponse(item);
+}
+
+module.exports = {
+  DEFAULT_ADDRESS,
+  DEFAULT_STORE_ID,
+  fetchLentaById,
+  parseLentaDetailsResponse,
+  parseLentaUrlOrId,
+  parseNutritionText,
+  searchLenta,
+};

@@ -43,13 +43,25 @@ jobs:
       - name: Deploy function
         env:
           YC_FUNCTION_ID: ${{ secrets.YC_FUNCTION_ID }}
+          YC_SA_ID: ${{ secrets.YC_SA_ID }}
+          ADMIN_EMAIL: ${{ secrets.ADMIN_EMAIL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          S3_PRIVATE_BUCKET: ${{ secrets.S3_PRIVATE_BUCKET }}
+          S3_PUBLIC_BUCKET: ${{ secrets.S3_PUBLIC_BUCKET }}
         run: |
           yc serverless function version create \
             --function-id "$YC_FUNCTION_ID" \
             --runtime nodejs18 \
             --entrypoint index.handler \
             --memory 128m \
-            --execution-timeout 15s \
+            --execution-timeout 180s \
+            --service-account-id "$YC_SA_ID" \
+            --environment ADMIN_EMAIL="$ADMIN_EMAIL" \
+            --environment GOOGLE_CLIENT_ID="$GOOGLE_CLIENT_ID" \
+            --environment JWT_SECRET="$JWT_SECRET" \
+            --environment S3_PRIVATE_BUCKET="$S3_PRIVATE_BUCKET" \
+            --environment S3_PUBLIC_BUCKET="$S3_PUBLIC_BUCKET" \
             --source-path parser.zip
 
       - name: Deploy API Gateway

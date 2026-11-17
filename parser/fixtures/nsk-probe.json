@@ -1,0 +1,341 @@
+{
+  "generatedAt": "2026-11-17T06:38:55.392Z",
+  "magnit": {
+    "store": {
+      "shopCode": "543371",
+      "storeType": "STORE_TYPE_MM",
+      "storeTypeV2": "MM",
+      "address": "Новосибирская обл, г Новосибирск, ул Выборная, зд 87/3",
+      "coordinates": {
+        "latitude": 55.000451,
+        "longitude": 83.010786
+      }
+    },
+    "searchRequest": {
+      "storeCode": "543371",
+      "storeType": "1",
+      "catalogType": "1",
+      "term": "макароны шебекинские спирали 366"
+    },
+    "searchItem": {
+      "badges": [],
+      "catalogType": "1",
+      "gallery": [
+        {
+          "type": "IMAGE",
+          "url": "https://images-foodtech.magnit.ru/GAaSVIymi1DY1Tcaj4ATo4wpJBfjMVmLWzgJPox6RHY/rs:fit:416:416/plain/s3://img-dostavka/uf/b96/b967a2a0ccb9edc8948a567c6ecc855a/b5597fd6fc9c2a993625c6cdc18305c1.jpeg@webp"
+        }
+      ],
+      "id": "3174070009",
+      "isAdditionalActionRequired": false,
+      "isBiometryRequired": false,
+      "isForAdults": false,
+      "isInFavorites": null,
+      "isLowStock": null,
+      "name": "Макароны Шебекинские №366 Спирали 450г",
+      "needPassport": false,
+      "orderProperties": {
+        "minOrderQuantity": 1,
+        "orderStepQuantity": 1
+      },
+      "orders": null,
+      "pickupOnly": false,
+      "price": 6699,
+      "productId": "3174070009",
+      "promotion": {
+        "discountPercent": 16,
+        "endDate": "2026-11-17T00:00:00Z",
+        "isPromotion": true,
+        "oldPrice": 7999
+      },
+      "quantity": 16,
+      "ratings": {
+        "commentsCount": 498,
+        "external": null,
+        "rating": 4.9,
+        "scoresCount": 12926
+      },
+      "seoCode": "makarony_shebekinskie_spirali_450g",
+      "service": "core_mm",
+      "skuGroupId": null,
+      "skuIds": null,
+      "storeCode": "543371",
+      "targetCart": "core_mm",
+      "weighted": {
+        "isWeighted": false,
+        "minStep": null,
+        "shelfLabel": null,
+        "shelfWeight": null,
+        "step": null,
+        "unitLabel": null,
+        "unitPrice": null
+      }
+    },
+    "goodsGet": {
+      "status": 401,
+      "body": {
+        "code": "authentication_error",
+        "message": "authentication required"
+      }
+    },
+    "goodsStores": {
+      "url": "/webgate/v2/goods/3174070009/stores/543371?storetype=1&catalogtype=1",
+      "status": 200,
+      "body": {
+        "badges": [],
+        "categories": [
+          115481
+        ],
+        "characteristics": [],
+        "containerConfig": {
+          "media": {
+            "backgroundColor": "#FFF5F5F5",
+            "cornerRadius": 0
+          }
+        },
+        "details": [
+          {
+            "groupId": 0,
+            "groupName": "",
+            "isHidden": false,
+            "isHiddenDetails": false,
+            "name": "Пищевая ценность в 100 граммах",
+            "parameters": [
+              {
+                "isCopyable": false,
+                "name": "Ккал",
+                "value": "350"
+              },
+              {
+                "isCopyable": false,
+                "name": "Белки",
+                "value": "13"
+              },
+              {
+                "isCopyable": false,
+                "name": "Жиры",
+                "value": "1.5"
+              },
+              {
+                "isCopyable": false,
+                "name": "Углеводы",
+                "value": "72"
+              }
+            ],
+            "type": "nutritionFactsType"
+          },
+          {
+            "groupId": 0,
+            "groupName": "",
+            "isHidden": true,
+            "isHiddenDetails": false,
+            "name": "Описание",
+            "parameters": [],
+            "type": "stringType",
+            "value": "Макароны приготовлены из твёрдых сортов пшеницы и сохраняют в себе все полезные свойства цельного зерна."
+          },
+          {
+            "groupId": 0,
+            "groupName": "",
+            "isHidden": true,
+            "isHiddenDetails": false,
+            "name": "Состав",
+            "parameters": [],
+            "type": "stringType",
+            "value": "Мука из твердой пшеницы, вода питьевая. Содержит натуральный белок злаковых культур - глютен"
+          },
+          {
+            "groupId": 0,
+            "groupName": "",
+            "isHidden": true,
+            "isHiddenDetails": false,
+            "name": "Характеристики",
+            "parameters": [
+              {
+                "isCopyable": false,
+                "name": "Вид продукта",
+                "value": "Макароны фигурные"
+              },
+              {
+                "isCopyable": false,
+                "name": "Бренд",
+                "value": "Шебекинские"
+              },
+              {
+                "isCopyable": false,
+                "name": "Производитель",
+                "value": "Макпром"
+              },
+              {
+                "isCopyable": false,
+                "name": "Вес, кг",
+                "value": "0.45"
+              },
+              {
+                "isCopyable": true,
+                "name": "Артикул",
+                "value": "3174070009"
+              }
+            ],
+            "type": "tableType"
+          },
+          {
+            "groupId": 0,
+            "groupName": "",
+            "isHidden": true,
+            "isHiddenDetails": false,
+            "name": "Условия хранения",
+            "parameters": [
+              {
+                "isCopyable": false,
+                "name": "Срок годности, дней",
+                "value": "730"
+              }
+            ],
+            "type": "tableType"
+          }
+        ],
+        "gallery": [
+          {
+            "type": "IMAGE",
+            "url": "https://images-foodtech.magnit.ru/QhU2qW9vnVxFyh9-5Hh5PquoWKmp_vTJ2CzEPOCbBEc/rs:fit:1600:1600/plain/s3://img-dostavka/catalog/uf/b96/b967a2a0ccb9edc8948a567c6ecc855a/b5597fd6fc9c2a993625c6cdc18305c1.jpeg@webp"
+          }
+        ],
+        "id": "3174070009",
+        "isBiometryRequired": false,
+        "isForAdults": false,
+        "isMissing": false,
+        "multicard": {
+          "features": [
+            {
+              "name": "Форма",
+              "type": "TEXT",
+              "variants": [
+                {
+                  "isSelected": true,
+                  "precalculatedGood": "3174070009",
+                  "seoCode": "makarony_shebekinskie_spirali_450g",
+                  "state": "available",
+                  "title": "Спирали",
+                  "value": "Спирали"
+                },
+                {
+                  "isSelected": false,
+                  "precalculatedGood": "1000480037",
+                  "seoCode": "shebekinskie_mak_izd_peryshki_223_0_45kg_pach",
+                  "state": "available",
+                  "title": "Перья",
+                  "value": "Перья"
+                },
+                {
+                  "isSelected": false,
+                  "precalculatedGood": "3174070010",
+                  "seoCode": "makarony_shebekinskie_babochki_350g",
+                  "state": "available",
+                  "title": "Бантики",
+                  "value": "Бантики"
+                },
+                {
+                  "isSelected": false,
+                  "precalculatedGood": "3174070007",
+                  "seoCode": "makarony_shebekinskie_rozhki_450g",
+                  "state": "available",
+                  "title": "Рожки",
+                  "value": "Рожки"
+                },
+                {
+                  "isSelected": false,
+                  "precalculatedGood": "1084070002",
+                  "seoCode": "makarony_shebekinskie_ulitka_sabo_450g",
+                  "state": "available",
+                  "title": "Улитки",
+                  "value": "Улитки"
+                }
+              ]
+            }
+          ],
+          "name": "Макаронные изделия Шебекинские"
+        },
+        "name": "Макароны Шебекинские №366 Спирали 450г",
+        "needPassport": false,
+        "pageUrl": "https://magnit.ru/product/3174070009?shopCode=543371&shopType=1&catalogType=1&source=shareProduct",
+        "pickupOnly": false,
+        "price": 6699,
+        "promotion": {
+          "discountPercent": 16,
+          "endDate": "2026-11-17T00:00:00Z",
+          "isPromotion": true,
+          "oldPrice": 7999
+        },
+        "quantity": 16,
+        "ratings": {
+          "commentsCount": 498,
+          "external": null,
+          "rating": 4.9,
+          "scoresCount": 12926
+        },
+        "seoCode": "makarony_shebekinskie_spirali_450g",
+        "storeCode": "543371",
+        "weighted": {
+          "isWeighted": false,
+          "minStep": null,
+          "shelfLabel": null,
+          "shelfWeight": null,
+          "step": null,
+          "unitLabel": null,
+          "unitPrice": null
+        }
+      }
+    }
+  },
+  "lenta": {
+    "store": {
+      "id": 194,
+      "aliasId": 73,
+      "name": "ТК73",
+      "address": "Новосибирск, Большевистская ул., 52/1",
+      "shopType": "HM",
+      "format": "hyper",
+      "distance": 70
+    },
+    "searchItem": {
+      "id": 51814,
+      "name": "Макароны ШЕБЕКИНСКИЕ Спирали группа А, высший сорт, 450г",
+      "price": 79.99,
+      "priceRegular": 79.99,
+      "discountPercent": 0,
+      "stock": 50,
+      "package": "450г",
+      "slug": "makarony-spirali-366-gra-vs-rossiya-450g",
+      "url": "https://lenta.com/product/makarony-spirali-366-gra-vs-rossiya-450g-51814/",
+      "image": "https://cdn.api.lenta.com/resample/webp/500x500/photo/51814/1d999e20-3cac-4037-a9a5-3f5fa06f2c55.png",
+      "rating": 5,
+      "ratingCount": 816
+    },
+    "details": {
+      "ok": true,
+      "data": {
+        "storeId": 73,
+        "channel": "lo",
+        "item": {
+          "id": 51814,
+          "name": "Макароны ШЕБЕКИНСКИЕ Спирали группа А, высший сорт, 450г",
+          "price": 79.99,
+          "priceRegular": 79.99,
+          "discountPercent": 0,
+          "stock": 50,
+          "package": "450г",
+          "slug": "makarony-spirali-366-gra-vs-rossiya-450g",
+          "url": "https://lenta.com/product/makarony-spirali-366-gra-vs-rossiya-450g-51814/",
+          "image": "https://cdn.api.lenta.com/resample/webp/500x500/photo/51814/1d999e20-3cac-4037-a9a5-3f5fa06f2c55.png",
+          "brand": "ШЕБЕКИНСКИЕ",
+          "rating": 5,
+          "ratingCount": 816,
+          "ean": "4607001850106",
+          "category": "Макароны, крупы, мука",
+          "nutrition": "Белки – 13г, жиры – 1,5г, углеводы – 72г, 350 Ккал"
+        }
+      }
+    }
+  }
+}

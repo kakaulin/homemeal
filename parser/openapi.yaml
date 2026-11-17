@@ -1,11 +1,11 @@
 openapi: 3.0.0
 info:
   title: Home Meal price API
-  version: 1.1.0
+  version: 2.0.0
   description: |
-    Цены на товар из двух магазинов: Магнит (`webgate/v2/goods/search`)
-    и Лента (MCP `storefront_products_search`).
-    По умолчанию берётся цель из targets.json, магазин — из её поля store.
+    Цены Новосибирска: Магнит (Выборная, 87/3) и Гипер Лента (Большевистская, 52/1).
+    Все данные хранятся в Yandex Object Storage; синхронизация запускается таймером
+    или вручную через /admin/sync.
 servers:
   - url: https://your-api-gateway-url
 
@@ -19,68 +19,160 @@ paths:
   /get-price:
     get:
       operationId: getPrice
-      summary: Цена товара из Магнита и/или Ленты
+      summary: Цены по цели из targets.json (обратная совместимость)
       parameters:
         - name: q
           in: query
           required: false
-          description: Поисковый запрос (по умолчанию internal_name из targets.json)
-          schema:
-            type: string
+          schema: { type: string }
         - name: store
           in: query
           required: false
-          description: Какой магазин опрашивать; all — оба параллельно
           schema:
             type: string
             enum: [magnit, lenta, all]
-            default: magnit
         - name: shopCode
           in: query
           required: false
-          description: Код магазина Магнита (строка, ведущие нули сохраняются)
           schema:
             type: string
-            default: "303857"
-        - name: address
-          in: query
-          required: false
-          description: Адрес для определения магазина Ленты
-          schema:
-            type: string
-            default: "Москва, Ленинский проспект 45"
+            default: "543371"
       responses:
         "200":
-          description: Цены найдены; верхний уровень повторяет первый товар для PriceWidget
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  product:
-                    type: string
-                  price:
-                    type: number
-                  pricePer100:
-                    type: number
-                    nullable: true
-                  weightGrams:
-                    type: number
-                    nullable: true
-                  store:
-                    type: string
-                  items:
-                    type: array
-                    items:
-                      type: object
-                  errors:
-                    type: array
-                    items:
-                      type: object
-        "400":
-          description: Неизвестный параметр store
+          description: Цены найдены
         "502":
-          description: Ни один магазин не отдал товары
+          description: Магазины не ответили
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}
+
+  /auth/google:
+    post:
+      operationId: authGoogle
+      summary: Обмен Google ID token на сессионный JWT
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [credential]
+              properties:
+                credential:
+                  type: string
+      responses:
+        "200":
+          description: Токен сессии и профиль
+        "401":
+          description: Google ID token не прошёл проверку
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}
+
+  /admin/products:
+    get:
+      operationId: adminProducts
+      summary: Каталог для админки (товары с ошибками — сверху)
+      responses:
+        "200":
+          description: Список товаров
+        "401":
+          description: Нет токена
+        "403":
+          description: Не администратор
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}
+    post:
+      operationId: adminCreateProduct
+      summary: Создать товар и сразу подтянуть цены
+      responses:
+        "201":
+          description: Товар создан
+        "401":
+          description: Нет токена
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}
+
+  /admin/products/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Идентификатор товара
+        schema:
+          type: string
+    put:
+      operationId: adminUpdateProduct
+      summary: Обновить товар
+      responses:
+        "200":
+          description: Товар обновлён
+        "404":
+          description: Товар не найден
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}
+    delete:
+      operationId: adminDeleteProduct
+      summary: Удалить товар
+      responses:
+        "200":
+          description: Товар удалён
+        "404":
+          description: Товар не найден
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}
+
+  /admin/lookup:
+    post:
+      operationId: adminLookup
+      summary: Поиск товара по тексту, ссылке или ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [store, queryOrUrl]
+              properties:
+                store:
+                  type: string
+                  enum: [magnit, lenta]
+                queryOrUrl:
+                  type: string
+      responses:
+        "200":
+          description: Кандидаты с весом и КБЖУ
+      x-yc-apigateway-integration:
+        type: cloud_functions
+        function_id: ${env.YC_FUNCTION_ID}
+        service_account_id: ${env.YC_SA_ID}
+
+  /admin/sync:
+    post:
+      operationId: adminSync
+      summary: Пересчитать цены (все или один товар)
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+      responses:
+        "200":
+          description: Сводка синхронизации
       x-yc-apigateway-integration:
         type: cloud_functions
         function_id: ${env.YC_FUNCTION_ID}

@@ -5,13 +5,20 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const { parseMagnitSearchResponse } = require("./magnit");
+const {
+  parseMagnitDetailsResponse,
+  parseMagnitSearchResponse,
+  parseMagnitUrlOrId,
+} = require("./magnit");
 
 const fixtures = path.join(__dirname, "..", "fixtures");
-const mannaya = JSON.parse(fs.readFileSync(path.join(fixtures, "magnit-search.json"), "utf8"));
-const bananas = JSON.parse(
-  fs.readFileSync(path.join(fixtures, "magnit-search-bananas.json"), "utf8"),
-);
+const readFixture = (name) =>
+  JSON.parse(fs.readFileSync(path.join(fixtures, name), "utf8"));
+
+const mannaya = readFixture("magnit-search.json");
+const bananas = readFixture("magnit-search-bananas.json");
+const nsk = readFixture("nsk-probe.json");
+const details = nsk.magnit.goodsStores.body;
 
 test("фикстура «манная крупа»: цена, вес, цена за 100 г", () => {
   const items = parseMagnitSearchResponse(mannaya, "303857");
@@ -67,4 +74,46 @@ test("товары без остатка и с нулевой ценой отф�
   assert.equal(items[0].id, "3");
   assert.equal(items[0].price, 5);
   assert.equal(items[0].pricePer100, 5);
+});
+
+test("карточка Магнита: копейки -> рубли, вес и КБЖУ из details", () => {
+  const item = parseMagnitDetailsResponse(details, "543371");
+
+  assert.equal(item.store, "magnit");
+  assert.equal(item.shopCode, "543371");
+  assert.equal(item.name, "Макароны Шебекинские №366 Спирали 450г");
+  assert.equal(item.price, 66.99);
+  assert.equal(item.weightGrams, 450);
+  assert.equal(item.quantity, 16);
+  assert.equal(item.inStock, true);
+  assert.deepEqual(item.suggestedNutrition, {
+    kcal: 350,
+    protein: 13,
+    fat: 1.5,
+    carbs: 72,
+  });
+});
+
+test("карточка Магнита: чужой storeCode — ошибка", () => {
+  assert.throws(() => parseMagnitDetailsResponse(details, "999999"), /магазина/);
+});
+
+test("карточка Магнита: отсутствующий товар не в наличии", () => {
+  const item = parseMagnitDetailsResponse(
+    { ...details, isMissing: true, quantity: 0 },
+    "543371",
+  );
+
+  assert.equal(item.inStock, false);
+});
+
+test("parseMagnitUrlOrId: ссылка и строка", () => {
+  assert.equal(
+    parseMagnitUrlOrId(
+      "https://magnit.ru/product/3174070009-makarony_shebekinskie_spirali_450g?shopCode=543371&shopType=express",
+    ),
+    "3174070009",
+  );
+  assert.equal(parseMagnitUrlOrId("3174070009"), "3174070009");
+  assert.equal(parseMagnitUrlOrId("не ссылка"), null);
 });
